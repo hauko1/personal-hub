@@ -46,6 +46,12 @@ export function createGitHub(token) {
       return all;
     },
 
+    /** People with access to a repo I own (needs push access; token: Metadata – Read). */
+    collaborators: (owner, repo) => call(`/repos/${owner}/${repo}/collaborators?affiliation=direct&per_page=100`),
+
+    /** Invitations not accepted yet (token: Administration – Read; without it this fails and is skipped). */
+    invitations: (owner, repo) => call(`/repos/${owner}/${repo}/invitations?per_page=100`),
+
     async list(owner, repo, path) {
       const data = await call(`/repos/${owner}/${repo}/contents/${encodePath(path)}`);
       return Array.isArray(data) ? data : null; // null = it's a file

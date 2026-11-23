@@ -3,6 +3,7 @@ import {
   resolveRepoPath, encodePath, parseRoute, repoHref, timeAgo, formatSize, sortListing,
 } from '../util.js';
 import { createDemo } from '../demo.js';
+import { classifyRepos, parseNicknames, parseRepoList, displayName, pool } from '../shared.js';
 
 const out = document.getElementById('out');
 let passed = 0; let failed = 0;
@@ -76,6 +77,43 @@ eq('demo save changes the file', (await demo.file('demo', 'notes', 'STAV.md')).t
 let missing = false;
 try { await demo.file('demo', 'notes', 'nope.md'); } catch (e) { missing = e.status === 404; }
 eq('missing file gives 404', missing, true);
+
+// spaces: Soukromé / Společné
+const R = (owner, name) => ({ name, owner: { login: owner }, full_name: `${owner}/${name}` });
+const nick = parseNicknames('# komentář\nKamarad = Kámoš\n@Jana=Jana N.\nnesmysl\n= bez loginu');
+eq('nicknames parse, lowercase logins, ignore junk', [...nick.entries()], [['kamarad', 'Kámoš'], ['jana', 'Jana N.']]);
+eq('repo list accepts owner/name and github URLs',
+  [...parseRepoList('a/b\nhttps://github.com/C/D/\nšpatně\n# x/y')], ['a/b', 'c/d']);
+const collabs = new Map([
+  ['me/spolecny', [{ login: 'me' }, { login: 'Kamarad', avatar_url: 'https://x/a.png' }]],
+  ['me/sam', [{ login: 'me' }]],
+  ['me/pozvanka', [{ login: 'novy', pending: true }]],
+]);
+const split = classifyRepos(
+  [R('me', 'sam'), R('me', 'spolecny'), R('jana', 'jejich'), R('me', 'pozvanka'), R('me', 'rucne')],
+  'Me', collabs, new Set(['me/rucne']), nick);
+eq('personal = only my repos nobody else has', split.personal.map((r) => r.name), ['sam']);
+eq('shared = collaborators, other owner, pending invite, listed by hand',
+  split.shared.map((r) => r.name), ['spolecny', 'jejich', 'pozvanka', 'rucne']);
+eq('people grouped, nicknames used, sorted by name',
+  split.people.map((p) => [p.name, p.repos.map((r) => r.name)]),
+  [['Jana N.', ['jejich']], ['Kámoš', ['spolecny']], ['novy', ['pozvanka']]]);
+eq('pending only when every access is an invitation', split.people.map((p) => p.pending), [false, false, true]);
+eq('shared repo knows its people', split.shared.find((r) => r.name === 'spolecny').people, ['Kamarad']);
+eq('display name falls back to login', [displayName('KAMARAD', nick), displayName('cizi', nick)], ['Kámoš', 'cizi']);
+eq('pool keeps order and runs everything', await pool([3, 1, 2], 2, async (x) => x * 10), [30, 10, 20]);
+
+const dRepos = await demo.repos();
+const dCollabs = new Map();
+for (const r of dRepos.filter((x) => x.owner.login === 'demo')) {
+  const c = await demo.collaborators('demo', r.name);
+  const inv = (await demo.invitations('demo', r.name)).map((i) => ({ ...i.invitee, pending: true }));
+  dCollabs.set(r.full_name, [...c, ...inv]);
+}
+const dSplit = classifyRepos(dRepos, 'demo', dCollabs);
+eq('demo has both spaces', [dSplit.personal.length > 0, dSplit.shared.length], [true, 2]);
+eq('demo people', dSplit.people.map((p) => p.login).sort(), ['jana', 'petra', 'tom-k']);
+eq('route shared', [parseRoute('#/spolecne').page, parseRoute('#/spolecne/repos').rest], ['spolecne', ['repos']]);
 
 document.getElementById('summary').textContent = `${passed} passed, ${failed} failed`;
 document.getElementById('summary').className = failed ? 'fail' : 'ok';

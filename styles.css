@@ -121,3 +121,36 @@ input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 
 .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 .btn.ghost { background: transparent; }
 .status { min-height: 1.2em; }
+
+/* spaces: Soukromé / Společné */
+.top nav.spaces { display: inline-flex; gap: 2px; padding: 3px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); }
+.top nav.spaces a { padding: 6px 14px; border-radius: 999px; color: var(--muted); font-weight: 600; }
+.top nav.spaces a:hover { color: var(--text); text-decoration: none; }
+.top nav.spaces a.active { background: var(--accent); color: #fff; }
+.settings-link { margin-left: auto; padding: 6px 12px; border-radius: 999px; color: var(--muted); }
+.settings-link:hover { background: var(--accent-soft); color: var(--text); text-decoration: none; }
+.settings-link.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.top nav.sub { flex-basis: 100%; }
+.top nav.sub:empty { display: none; }
+
+/* people */
+.people { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-bottom: 16px; }
+.people > .card { margin-bottom: 0; }
+.person-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.person-head h2 { margin: 0; }
+.person-head p { margin: 2px 0 0; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; flex: none; object-fit: cover; background: var(--accent-soft); }
+.avatar.initials { display: grid; place-items: center; color: var(--accent); font-weight: 700; }
+.tag.pend { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 40%, transparent); }
+.repo-list .with { color: var(--accent); font-size: .8rem; justify-self: start; }
+.steps { margin: 0; padding-left: 1.3em; }
+.steps li { margin-bottom: 6px; }
+.settings h3 { margin: 18px 0 8px; font-size: 1rem; }
+.settings textarea { width: 100%; font: 14px/1.5 ui-monospace, Consolas, monospace; resize: vertical; }
+.settings .hint { font-weight: 400; }
+@media (max-width: 480px) {
+  .settings-link { font-size: 0; padding: 6px 8px; }
+  .settings-link::before { content: "⚙"; font-size: 1.25rem; line-height: 1; }
+  .top { gap: 8px 10px; padding: 10px 12px; }
+  .top nav.spaces a { padding: 6px 11px; }
+}

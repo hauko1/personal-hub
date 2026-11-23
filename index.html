@@ -19,13 +19,12 @@
 <body>
   <header class="top">
     <a class="brand" href="#/"><img src="docs/icon.svg" alt="" width="26" height="26"> Přehled</a>
-    <nav aria-label="Hlavní menu">
-      <a href="#/" data-page="home">Domů</a>
-      <a href="#/repos" data-page="repos">Repozitáře</a>
-      <a href="#/posta" data-page="posta" class="soon">Pošta</a>
-      <a href="#/fotky" data-page="fotky" class="soon">Fotky</a>
-      <a href="#/nastaveni" data-page="nastaveni">Nastavení</a>
+    <nav class="spaces" aria-label="Prostor">
+      <a href="#/" data-space="soukrome">Soukromé</a>
+      <a href="#/spolecne" data-space="spolecne">Společné</a>
     </nav>
+    <a class="settings-link" href="#/nastaveni" data-page="nastaveni" aria-label="Nastavení">Nastavení</a>
+    <nav class="sub" id="subnav" aria-label="Menu"></nav>
   </header>
   <main id="view" tabindex="-1"><p class="muted loading">Načítám…</p></main>
   <noscript><p class="card">Aplikace potřebuje zapnutý JavaScript.</p></noscript>

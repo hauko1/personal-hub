@@ -33,13 +33,32 @@ const FILES = {
     'index.html': '<!doctype html>\n<title>Web</title>\n<h1>Ahoj</h1>\n',
     'logo.svg': '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="40"><rect width="120" height="40" rx="8" fill="#4f7cff"/><text x="60" y="26" font-size="16" text-anchor="middle" fill="#fff" font-family="sans-serif">logo</text></svg>',
   },
+  'demo/sdileni-s-tomem': {
+    'README.md': '# Sdílení s Tomem\n\nSoukromý repozitář jen pro věci, které spolu sdílíme.\n\n- [x] Fotky z výletu\n- [ ] Plán na prázdniny\n',
+  },
+  'jana/skupinova-prace': {
+    'README.md': '# Skupinová práce\n\nProjekt do školy. Repozitář patří Janě, my dva jsme pozvaní.\n',
+  },
 };
 
 const REPOS = [
   { name: 'notes', private: true, description: 'Poznámky a stav rozpracovaných věcí', pushed_at: ago(2), language: 'Markdown' },
+  { name: 'sdileni-s-tomem', private: true, description: 'Věci, které sdílíme s Tomem', pushed_at: ago(5), language: 'Markdown' },
   { name: 'website', private: false, description: 'Osobní web', pushed_at: ago(30), language: 'HTML' },
   { name: 'game-mod', private: false, description: 'Mod do hry', pushed_at: ago(24 * 9), language: 'Python' },
-].map((r) => ({ ...r, owner: { login: 'demo' }, full_name: `demo/${r.name}`, html_url: '#', default_branch: 'main' }));
+].map((r) => ({ ...r, owner: { login: 'demo' }, full_name: `demo/${r.name}`, html_url: '#', default_branch: 'main' }))
+  .concat([{
+    name: 'skupinova-prace', private: true, description: 'Projekt do školy', pushed_at: ago(26), language: 'Python',
+    owner: { login: 'jana' }, full_name: 'jana/skupinova-prace', html_url: '#', default_branch: 'main',
+  }]);
+
+// Who else has access to the repos the demo user owns (made-up people).
+const COLLABORATORS = {
+  'demo/sdileni-s-tomem': [{ login: 'demo' }, { login: 'tom-k' }],
+};
+const INVITATIONS = {
+  'demo/sdileni-s-tomem': [{ invitee: { login: 'petra' } }],
+};
 
 function entries(key, path) {
   const files = FILES[key] || {};
@@ -60,6 +79,8 @@ export function createDemo() {
     demo: true,
     user: async () => ({ login: 'demo', name: 'Ukázkový účet' }),
     repos: async () => REPOS,
+    collaborators: async (owner, repo) => COLLABORATORS[`${owner}/${repo}`] || [{ login: owner }],
+    invitations: async (owner, repo) => INVITATIONS[`${owner}/${repo}`] || [],
     async list(owner, repo, path) {
       const key = `${owner}/${repo}`;
       if (FILES[key]?.[path] !== undefined) return null;
