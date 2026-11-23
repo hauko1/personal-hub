@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self'; img-src 'self' https: data: blob:; connect-src https://api.github.com; manifest-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light dark">
+  <title>Přehled</title>
+  <link rel="icon" href="docs/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"
+          integrity="sha384-/TQbtLCAerC3jgaim+N78RZSDYV7ryeoBCVqTuzRrFec2akfBkHS7ACQ3PQhvMVi" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"
+          integrity="sha384-+VfUPEb0PdtChMwmBcBmykRMDd+v6D/oFmB3rZM/puCMDYcIvF968OimRh4KQY9a" crossorigin="anonymous"></script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="#/"><img src="docs/icon.svg" alt="" width="26" height="26"> Přehled</a>
+    <nav aria-label="Hlavní menu">
+      <a href="#/" data-page="home">Domů</a>
+      <a href="#/repos" data-page="repos">Repozitáře</a>
+      <a href="#/posta" data-page="posta" class="soon">Pošta</a>
+      <a href="#/fotky" data-page="fotky" class="soon">Fotky</a>
+      <a href="#/nastaveni" data-page="nastaveni">Nastavení</a>
+    </nav>
+  </header>
+  <main id="view" tabindex="-1"><p class="muted loading">Načítám…</p></main>
+  <noscript><p class="card">Aplikace potřebuje zapnutý JavaScript.</p></noscript>
+</body>
+</html>

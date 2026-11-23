@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 230" font-family="Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#8a93b8"/></marker></defs>
+  <rect width="1200" height="230" rx="20" fill="#f4f6fb"/>
+  <g font-size="20" text-anchor="middle">
+    <rect x="40" y="55" width="250" height="110" rx="16" fill="#fff" stroke="#d5dbee"/>
+    <text x="165" y="100" font-weight="700" fill="#1d2130">Your browser</text>
+    <text x="165" y="130" font-size="16" fill="#6a7085">the app + your token</text>
+    <rect x="470" y="55" width="250" height="110" rx="16" fill="#fff" stroke="#d5dbee"/>
+    <text x="595" y="100" font-weight="700" fill="#1d2130">api.github.com</text>
+    <text x="595" y="130" font-size="16" fill="#6a7085">only place the token goes</text>
+    <rect x="900" y="55" width="260" height="110" rx="16" fill="#fff" stroke="#d5dbee"/>
+    <text x="1030" y="100" font-weight="700" fill="#1d2130">Your repositories</text>
+    <text x="1030" y="130" font-size="16" fill="#6a7085">private ones too</text>
+  </g>
+  <g stroke="#8a93b8" stroke-width="3" fill="none" marker-end="url(#a)">
+    <path d="M295 95 H462"/><path d="M725 95 H892"/>
+    <path d="M892 128 H729"/><path d="M462 128 H299"/>
+  </g>
+  <g font-size="15" fill="#6a7085" text-anchor="middle">
+    <text x="380" y="84">read / save a file</text><text x="810" y="84">contents API</text>
+    <text x="810" y="152">files, folders</text><text x="380" y="152">rendered on the page</text>
+  </g>
+  <text x="600" y="205" font-size="16" fill="#6a7085" text-anchor="middle">No server of its own, no tracking. The page is plain HTML + JavaScript hosted on GitHub Pages.</text>
+</svg>
